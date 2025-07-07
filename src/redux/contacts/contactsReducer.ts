@@ -2,7 +2,7 @@ import { ContactDto } from 'src/types/dto/ContactDto';
 import { DATA_CONTACT } from 'src/__data__';
 
 
-// type ContactsState = ContactDto[];
+// type ContactsStoreState = ContactDto[];
 
 export const initialState: ContactDto[] = DATA_CONTACT; // [];  // DATA_CONTACT временно
 

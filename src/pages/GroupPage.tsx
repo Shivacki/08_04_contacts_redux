@@ -25,7 +25,7 @@ export const GroupPage = memo<CommonPageProps>(({
       }
       return [];
     });
-  }, [groupId]);
+  }, [groupId, contactsState, groupContactsState]);
 
   return (
     <Row className="g-4">

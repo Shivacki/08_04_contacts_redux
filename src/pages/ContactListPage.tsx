@@ -1,4 +1,6 @@
 import React, {memo, useState} from 'react';
+import { useSelector } from 'react-redux'
+import { selectContacts } from 'src/redux/contacts'
 import {CommonPageProps} from './types';
 import {Col, Row} from 'react-bootstrap';
 import {ContactCard} from 'src/components/ContactCard';
@@ -9,9 +11,12 @@ import {ContactDto} from 'src/types/dto/ContactDto';
 export const ContactListPage = memo<CommonPageProps>(({
   contactsState, groupContactsState
 }) => {
-  const [contacts, setContacts] = useState<ContactDto[]>(contactsState[0])
+  const contactsStoreState: ContactDto[] = useSelector(selectContacts);
+  const contactsInitialState = contactsStoreState;  // contactsState[0]
+
+  const [contacts, setContacts] = useState<ContactDto[]>(contactsInitialState);
   const onSubmit = (fv: Partial<FilterFormValues>) => {
-    let findContacts: ContactDto[] = contactsState[0];
+    let findContacts: ContactDto[] = contactsInitialState;
 
     if (fv.name) {
       const fvName = fv.name.toLowerCase();

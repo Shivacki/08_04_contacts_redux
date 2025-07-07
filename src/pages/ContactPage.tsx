@@ -1,4 +1,6 @@
 import React, {FC, useEffect, useState} from 'react';
+import { useSelector } from 'react-redux'
+import { selectContacts } from 'src/redux/contacts'
 import {CommonPageProps} from './types';
 import {Col, Row} from 'react-bootstrap';
 import {useParams} from 'react-router-dom';
@@ -10,12 +12,15 @@ import {Empty} from 'src/components/Empty';
 export const ContactPage: FC<CommonPageProps> = ({
   contactsState
 }) => {
+  const contactsStoreState: ContactDto[] = useSelector(selectContacts);
+  const contactsInitialState = contactsStoreState;  // contactsState[0]
+
   const {contactId} = useParams<{ contactId: string }>();
   const [contact, setContact] = useState<ContactDto>();
 
   useEffect(() => {
-    setContact(() => contactsState[0].find(({id}) => id === contactId));
-  }, [contactId]);
+    setContact(() => contactsInitialState.find(({id}) => id === contactId));
+  }, [contactId, contactsInitialState]);
 
   return (
     <Row xxl={3}>
