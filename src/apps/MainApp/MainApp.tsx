@@ -2,6 +2,10 @@ import React, {useState} from 'react';
 import './MainApp.scss';
 import {ThemeProvider} from 'react-bootstrap';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import { Provider, useSelector } from 'react-redux'
+
+import { store } from 'src/redux/store'
+import { selectContacts } from 'src/redux/contacts'
 import {Layout} from 'src/components/Layout';
 import {ContactListPage, GroupPage, ContactPage, FavoritListPage, GroupListPage} from 'src/pages';
 import {ContactDto} from 'src/types/dto/ContactDto';
@@ -10,6 +14,8 @@ import {GroupContactsDto} from 'src/types/dto/GroupContactsDto';
 import {DATA_CONTACT, DATA_GROUP_CONTACT} from 'src/__data__';
 
 export const MainApp = () => {
+  // const contactsStateNew: ContactDto[] = useSelector(selectContacts);
+  // const contactsState = useSelector<ContactDto[]>(selectContacts);
   const contactsState = useState<ContactDto[]>(DATA_CONTACT);
   const favoriteContactsState = useState<FavoriteContactsDto>([
     DATA_CONTACT[0].id,
@@ -24,17 +30,10 @@ export const MainApp = () => {
       breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
       minBreakpoint="xxs"
     >
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={
-              <ContactListPage
-                contactsState={contactsState}
-                favoriteContactsState={favoriteContactsState}
-                groupContactsState={groupContactsState}
-              />
-            } />
-            <Route path="contact">
+      <Provider store={store}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
               <Route index element={
                 <ContactListPage
                   contactsState={contactsState}
@@ -42,40 +41,49 @@ export const MainApp = () => {
                   groupContactsState={groupContactsState}
                 />
               } />
-              <Route path=":contactId" element={
-                <ContactPage
+              <Route path="contact">
+                <Route index element={
+                  <ContactListPage
+                    contactsState={contactsState}
+                    favoriteContactsState={favoriteContactsState}
+                    groupContactsState={groupContactsState}
+                  />
+                } />
+                <Route path=":contactId" element={
+                  <ContactPage
+                    contactsState={contactsState}
+                    favoriteContactsState={favoriteContactsState}
+                    groupContactsState={groupContactsState}
+                  />
+                } />
+              </Route>
+              <Route path="groups">
+                <Route index element={
+                  <GroupListPage
+                    contactsState={contactsState}
+                    favoriteContactsState={favoriteContactsState}
+                    groupContactsState={groupContactsState}
+                  />
+                } />
+                <Route path=":groupId" element={
+                  <GroupPage
+                    contactsState={contactsState}
+                    favoriteContactsState={favoriteContactsState}
+                    groupContactsState={groupContactsState}
+                  />
+                } />
+              </Route>
+              <Route path="favorit" element={
+                <FavoritListPage
                   contactsState={contactsState}
                   favoriteContactsState={favoriteContactsState}
                   groupContactsState={groupContactsState}
                 />
               } />
             </Route>
-            <Route path="groups">
-              <Route index element={
-                <GroupListPage
-                  contactsState={contactsState}
-                  favoriteContactsState={favoriteContactsState}
-                  groupContactsState={groupContactsState}
-                />
-              } />
-              <Route path=":groupId" element={
-                <GroupPage
-                  contactsState={contactsState}
-                  favoriteContactsState={favoriteContactsState}
-                  groupContactsState={groupContactsState}
-                />
-              } />
-            </Route>
-            <Route path="favorit" element={
-              <FavoritListPage
-                contactsState={contactsState}
-                favoriteContactsState={favoriteContactsState}
-                groupContactsState={groupContactsState}
-              />
-            } />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+          </Routes>
+        </BrowserRouter>
+      </Provider>
     </ThemeProvider>
   );
 };
