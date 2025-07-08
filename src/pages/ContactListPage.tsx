@@ -1,6 +1,7 @@
-import React, {memo, useState} from 'react';
-import { useSelector } from 'react-redux'
+import React, {memo, useState, useEffect} from 'react';
+import { useSelector, useDispatch } from 'react-redux'
 import { selectContacts } from 'src/redux/contacts'
+import { fetchContacts, useContactsDispatch, fetchContactsThunk } from 'src/redux/contacts/contactsActions'
 import {CommonPageProps} from './types';
 import {Col, Row} from 'react-bootstrap';
 import {ContactCard} from 'src/components/ContactCard';
@@ -11,6 +12,9 @@ import {ContactDto} from 'src/types/dto/ContactDto';
 export const ContactListPage = memo<CommonPageProps>(({
   contactsState, groupContactsState
 }) => {
+  // const dispatch = useDispatch();
+  const dispatch = useContactsDispatch();
+  
   const contactsStoreState: ContactDto[] = useSelector(selectContacts);
   const contactsInitialState = contactsStoreState;  // contactsState[0]
 
@@ -37,6 +41,13 @@ export const ContactListPage = memo<CommonPageProps>(({
 
     setContacts(findContacts)
   }
+
+
+  useEffect(() => {
+    dispatch(fetchContactsThunk)
+    // dispatch(fetchContacts);  // или так
+  }, [])
+
 
   return (
     <Row xxl={1}>
