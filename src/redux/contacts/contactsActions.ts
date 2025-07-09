@@ -30,10 +30,10 @@ export enum ContactsActionTypes {
 
 
 // Типизированный useDispatch для исп-я вовне
-type ContactsDispatch = ThunkDispatch<RootState, null, ContactsAction>;
+export type ContactsDispatch = ThunkDispatch<RootState, null, ContactsAction>;
 export const useContactsDispatch = () => useDispatch<ContactsDispatch>();
 
-// Типизированная ф-я запроса данных с сервера, к-ую можно передать в dispatch
+// Типизированная ф-я запроса данных с сервера в рамках redux thunk, к-ую можно передать в dispatch
 export const fetchContactsThunk: ThunkAction<void, RootState, null, ContactsAction> = async (dispatch, getState) => {
   // ... логика thunk ...
   // const state = getState();
@@ -41,14 +41,16 @@ export const fetchContactsThunk: ThunkAction<void, RootState, null, ContactsActi
 
   dispatch({ type: ContactsActionTypes.GET_CONTACTS_PENDING });
   try {
-    // const data = loadJSON(FETCH_PATHS.contacts);  // CORS error at https://fs.getcourse.ru
-    // const data = loadJSON(FETCH_PATHS_MOCK.contacts);  // bad loading, html
+    const data = await loadJSON(FETCH_PATHS.contacts);
+    // const data = await loadJSON(FETCH_PATHS_MOCK.contacts);  // bad loading, html
     // const data = await import(FETCH_PATHS_MOCK.contacts);  // error "Cannot find module", because need static string in path, not variable
     // const data = await import('src/__data__', { assert: { type: "json" }});  // dynamic import json, error need "importAssertions": true ???
-    // Имитация динамической зарузки json-файла
-    const { DATA_CONTACT } = await import('src/__data__');  // like static import in MainApp.tsx, see src/__data__/index.ts
+
+    // Имитация динамической загрузки локального json-файла
+    // const { DATA_CONTACT } = await import('src/__data__');  // like static import in MainApp.tsx, see src/__data__/index.ts
+    // const data = DATA_CONTACT;
     await sleepAsync(1000);  // имитация доп. задержки при загрузке
-    const data = DATA_CONTACT;
+
     console.log('fetchContactsThunk data:', data);
     dispatch({ type: ContactsActionTypes.GET_CONTACTS_FULFILLED, payload: data });
   } catch(err) {
@@ -65,11 +67,9 @@ type ContactsThunk<ReturnType = void> = ThunkAction<
   ContactsAction //Action
 >;
 
-// Типизированная ф-я запроса данных с сервера, к-ую можно передать в dispatch. Альтернатива
-export const fetchContacts = (): ContactsThunk<Promise<void>> => async (dispatch, getState) => {
-  // ... логика thunk ...
-  const data = loadJSON(FETCH_PATHS.contacts);
-  dispatch({ type: ContactsActionTypes.GET_CONTACTS_FULFILLED, payload: data });
+// Типизированная ф-я запроса данных с сервера в рамках redux thunk, к-ую можно передать в dispatch. Альтернатива fetchContactsThunk
+export const fetchContactsThunk_2 = (): ContactsThunk<Promise<void>> => async (dispatch, getState) => {
+  // ... повторить здесь код fetchContactsThunk
 };
 //*/
 
