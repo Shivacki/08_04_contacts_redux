@@ -5,6 +5,7 @@ export const FETCH_PATHS = {
 }
 
 
+export const MOCK_FOLDER = 'src/__data__';
 const mockPrefix = '/src/__data__/';
 
 export const FETCH_PATHS_MOCK = {

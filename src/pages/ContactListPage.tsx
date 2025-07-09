@@ -1,22 +1,36 @@
 import React, {memo, useState, useEffect} from 'react';
-import { useSelector, useDispatch } from 'react-redux'
-import { selectContacts } from 'src/redux/contacts'
+import { useSelector, useDispatch, useStore } from 'react-redux'
+import { selectContactsData, selectContactsError, selectContactsIsLoading } from 'src/redux/contacts'
 import { fetchContacts, useContactsDispatch, fetchContactsThunk } from 'src/redux/contacts/contactsActions'
 import {CommonPageProps} from './types';
 import {Col, Row} from 'react-bootstrap';
 import {ContactCard} from 'src/components/ContactCard';
 import {FilterForm, FilterFormValues} from 'src/components/FilterForm';
 import {ContactDto} from 'src/types/dto/ContactDto';
+import { RootState } from 'src/redux/store'
 
 
-export const ContactListPage = memo<CommonPageProps>(({
+export const ContactListPage = /*memo<CommonPageProps>(*/({
   contactsState, groupContactsState
-}) => {
+}: CommonPageProps) => {
+  
+  console.log('render ContactListPage');
+  
+  const store = useStore<RootState>();
+  const storeState = store.getState();
+  console.log('storeState:', storeState);
+  
+  
   // const dispatch = useDispatch();
   const dispatch = useContactsDispatch();
   
-  const contactsStoreState: ContactDto[] = useSelector(selectContacts);
+  const contactsStoreState: ContactDto[] = useSelector(selectContactsData);
   const contactsInitialState = contactsStoreState;  // contactsState[0]
+  console.log('contactsStoreState: ', contactsStoreState);
+
+  const isLoading = useSelector(selectContactsIsLoading);
+  const error = useSelector(selectContactsError);
+  
 
   const [contacts, setContacts] = useState<ContactDto[]>(contactsInitialState);
   const onSubmit = (fv: Partial<FilterFormValues>) => {
@@ -48,6 +62,15 @@ export const ContactListPage = memo<CommonPageProps>(({
     // dispatch(fetchContacts);  // или так
   }, [])
 
+  useEffect(() => {
+    setContacts(contactsStoreState);
+  }, [contactsStoreState])
+
+
+  if (isLoading)
+    return <>Загрузка контактов...</>
+  if (!!error)
+    return <>Ошибка при загрузке контактов</>
 
   return (
     <Row xxl={1}>
@@ -65,4 +88,13 @@ export const ContactListPage = memo<CommonPageProps>(({
       </Col>
     </Row>
   );
-})
+} 
+
+/*
+  // propsAreEqual
+  () => {
+    return false
+  }
+
+)
+*/

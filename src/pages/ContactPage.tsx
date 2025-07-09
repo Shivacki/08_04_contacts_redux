@@ -1,6 +1,6 @@
 import React, {FC, useEffect, useState} from 'react';
 import { useSelector } from 'react-redux'
-import { selectContacts } from 'src/redux/contacts'
+import { selectContactsData } from 'src/redux/contacts'
 import {CommonPageProps} from './types';
 import {Col, Row} from 'react-bootstrap';
 import {useParams} from 'react-router-dom';
@@ -12,7 +12,7 @@ import {Empty} from 'src/components/Empty';
 export const ContactPage: FC<CommonPageProps> = ({
   contactsState
 }) => {
-  const contactsStoreState: ContactDto[] = useSelector(selectContacts);
+  const contactsStoreState: ContactDto[] = useSelector(selectContactsData);
   const contactsInitialState = contactsStoreState;  // contactsState[0]
 
   const {contactId} = useParams<{ contactId: string }>();

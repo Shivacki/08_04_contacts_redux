@@ -3,9 +3,10 @@ import { useDispatch } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import { RootState } from 'src/redux/store'
-import { FETCH_PATHS, FETCH_PATHS_MOCK } from 'src/constants/fetchPaths'
-import { loadJSON } from 'src/lib/jsonUtilities'
+import { FETCH_PATHS } from 'src/constants/fetchPaths'
+import { loadJSON, dynamicImportJSON } from 'src/lib/jsonUtilities'
 import { ContactDto } from 'src/types/dto/ContactDto';
+import { sleepAsync } from 'src/lib/commonUtilities'
 
 
 export interface ContactsAction {
@@ -21,7 +22,10 @@ export interface ContactsAction extends Action {
 */
 
 export enum ContactsActionTypes {
-  GET_CONTACTS = 'GET_CONTACTS',
+  // Actions: pending, fulfilled и rejected
+  GET_CONTACTS_PENDING = 'GET_CONTACTS_PENDING',
+  GET_CONTACTS_FULFILLED = 'GET_CONTACTS_FULFILLED',
+  GET_CONTACTS_REJECTED = 'GET_CONTACTS_REJECTED',
 }
 
 
@@ -35,14 +39,21 @@ export const fetchContactsThunk: ThunkAction<void, RootState, null, ContactsActi
   // const state = getState();
   // console.log("Current store state:", state);
 
-  // const data = loadJSON(FETCH_PATHS.contacts);
-  // const data = loadJSON(FETCH_PATHS_MOCK.contacts);  // bad loading, html
-  // const data = await import(FETCH_PATHS_MOCK.contacts);  // dynamic import json: error not a module
-  // const data = await import(FETCH_PATHS_MOCK.contacts, { assert: { type: "json" }});  // dynamic import json "importAssertions": true ???
-  const {DATA_CONTACT, DATA_GROUP_CONTACT} = await import('src/__data__');  // like static import in MainApp.tsx, see src/__data__/index.ts
-  const data = DATA_CONTACT;
-  console.log('fetchContactsThunk data:', data);
-  dispatch({ type: ContactsActionTypes.GET_CONTACTS, payload: data });
+  dispatch({ type: ContactsActionTypes.GET_CONTACTS_PENDING });
+  try {
+    // const data = loadJSON(FETCH_PATHS.contacts);  // CORS error at https://fs.getcourse.ru
+    // const data = loadJSON(FETCH_PATHS_MOCK.contacts);  // bad loading, html
+    // const data = await import(FETCH_PATHS_MOCK.contacts);  // error "Cannot find module", because need static string in path, not variable
+    // const data = await import('src/__data__', { assert: { type: "json" }});  // dynamic import json, error need "importAssertions": true ???
+    // Имитация динамической зарузки json-файла
+    const { DATA_CONTACT } = await import('src/__data__');  // like static import in MainApp.tsx, see src/__data__/index.ts
+    await sleepAsync(1000);  // имитация доп. задержки при загрузке
+    const data = DATA_CONTACT;
+    console.log('fetchContactsThunk data:', data);
+    dispatch({ type: ContactsActionTypes.GET_CONTACTS_FULFILLED, payload: data });
+  } catch(err) {
+    dispatch({ type: ContactsActionTypes.GET_CONTACTS_REJECTED, payload: (err as Error).message  });
+  }
 };
 
 
@@ -58,7 +69,7 @@ type ContactsThunk<ReturnType = void> = ThunkAction<
 export const fetchContacts = (): ContactsThunk<Promise<void>> => async (dispatch, getState) => {
   // ... логика thunk ...
   const data = loadJSON(FETCH_PATHS.contacts);
-  dispatch({ type: ContactsActionTypes.GET_CONTACTS, payload: data });
+  dispatch({ type: ContactsActionTypes.GET_CONTACTS_FULFILLED, payload: data });
 };
 //*/
 
@@ -66,7 +77,7 @@ export const fetchContacts = (): ContactsThunk<Promise<void>> => async (dispatch
 // Генератор действия (action creator)
 function getItems(): ContactsAction {
   return {
-    type: ContactsActionTypes.GET_CONTACTS,
+    type: ContactsActionTypes.GET_CONTACTS_FULFILLED,
     // payload: null,
   };
 }
