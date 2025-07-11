@@ -3,9 +3,12 @@ import { thunk } from 'redux-thunk';
 
 
 import contactsReducer from './contacts'
+import groupsReducer from './groups'
+
 
 const rootReducer = combineReducers({
   contacts: contactsReducer,
+  groups: groupsReducer,
 });
 
 // Определение RootState на основе корневого редьюсера

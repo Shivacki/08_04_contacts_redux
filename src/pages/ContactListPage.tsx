@@ -1,14 +1,13 @@
 import React, {memo, useState, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { selectContactsData, selectContactsError, selectContactsIsLoading } from 'src/redux/contacts'
-import { useContactsDispatch, fetchContactsThunk } from 'src/redux/contacts/contactsActions'
-// import { ContactsDispatch, fetchContactsThunk_2 } from 'src/redux/contacts/contactsActions'
+import { selectGroupsData } from 'src/redux/groups'
 import {CommonPageProps} from './types';
 import {Col, Row} from 'react-bootstrap';
 import {ContactCard} from 'src/components/ContactCard';
 import {FilterForm, FilterFormValues} from 'src/components/FilterForm';
 import {ContactDto} from 'src/types/dto/ContactDto';
-import { RootState } from 'src/redux/store'
+import { GroupContactsDto } from 'src/types/dto/GroupContactsDto';
 
 
 export const ContactListPage = /*memo<CommonPageProps>(*/({
@@ -17,15 +16,14 @@ export const ContactListPage = /*memo<CommonPageProps>(*/({
   
   console.log('render ContactListPage');
   
-  const dispatch = useContactsDispatch();
-  // const dispatch = useDispatch<ContactsDispatch>();
-  
-  const contactsStoreData: ContactDto[] = useSelector(selectContactsData);
-  const contactsInitialState = contactsStoreData;  // contactsState[0]
-  console.log('ContactListPage contactsStoreData: ', contactsStoreData);
+  const contactsDataStore: ContactDto[] = useSelector(selectContactsData);
+  const contactsInitialState = contactsDataStore;  // contactsState[0]
+  console.log('ContactListPage contactsDataStore: ', contactsDataStore);
 
   const isLoading = useSelector(selectContactsIsLoading);
   const error = useSelector(selectContactsError);
+
+  const groupsDataStore: GroupContactsDto[] = useSelector(selectGroupsData);
   
 
   const [contacts, setContacts] = useState<ContactDto[]>(contactsInitialState);
@@ -40,7 +38,7 @@ export const ContactListPage = /*memo<CommonPageProps>(*/({
     }
 
     if (fv.groupId) {
-      const groupContacts = groupContactsState[0].find(({id}) => id === fv.groupId);
+      const groupContacts = groupsDataStore.find(({id}) => id === fv.groupId);
 
       if (groupContacts) {
         findContacts = findContacts.filter(({id}) => (
@@ -54,15 +52,9 @@ export const ContactListPage = /*memo<CommonPageProps>(*/({
 
 
   useEffect(() => {
-    if (!contactsStoreData || contactsStoreData.length <= 0)
-      dispatch(fetchContactsThunk)
-    // dispatch(fetchContactsThunk_2);  // или так со штатным useDispatch: dispatch === useDispatch<ContactsDispatch>()
-  }, [])
-
-  useEffect(() => {
     // Обновляем лок. сост-е при изм-ии данных хранилища (например, после fetchContactsThunk)
-    setContacts(contactsStoreData);
-  }, [contactsStoreData])
+    setContacts(contactsDataStore);
+  }, [contactsDataStore])
 
 
   if (isLoading)
@@ -73,7 +65,7 @@ export const ContactListPage = /*memo<CommonPageProps>(*/({
   return (
     <Row xxl={1}>
       <Col className="mb-3">
-        <FilterForm groupContactsList={groupContactsState[0]} initialValues={{}} onSubmit={onSubmit} />
+        <FilterForm groupContactsList={groupsDataStore} initialValues={{}} onSubmit={onSubmit} />
       </Col>
       <Col>
         <Row xxl={4} className="g-4">

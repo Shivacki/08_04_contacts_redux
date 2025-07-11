@@ -2,4 +2,4 @@ import contactsReducer from './contactsReducer'
 export default contactsReducer
 
 export * from './contactsReducer'
-export * from './contactsSelector'
+export * from './contactsSelectors'

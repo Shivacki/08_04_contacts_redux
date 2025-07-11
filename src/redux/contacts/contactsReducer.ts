@@ -1,6 +1,5 @@
 import { ContactsAction, ContactsActionTypes } from './contactsActions'
 import { ContactDto } from 'src/types/dto/ContactDto';
-import { DATA_CONTACT } from 'src/__data__';
 
 
 interface ContactsStoreState {
@@ -11,7 +10,6 @@ interface ContactsStoreState {
 
 export const initialState: ContactsStoreState = {
   data: [],
-  // data: DATA_CONTACT,  // временно
   isLoading: false,
   error: null,
 }
