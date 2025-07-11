@@ -27,6 +27,7 @@ export async function loadJSON(path: string) {
  */
 export async function dynamicImportJSON(importPath: string) {
   return await import(importPath);
+  // return await import(importPath, { assert: { type: "json" }});  // dynamic import json, error need "importAssertions": true ???
 }
 
 /*

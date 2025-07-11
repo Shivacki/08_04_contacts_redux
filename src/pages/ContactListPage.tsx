@@ -1,5 +1,5 @@
 import React, {memo, useState, useEffect} from 'react';
-import { useSelector, useDispatch, useStore } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { selectContactsData, selectContactsError, selectContactsIsLoading } from 'src/redux/contacts'
 import { useContactsDispatch, fetchContactsThunk } from 'src/redux/contacts/contactsActions'
 // import { ContactsDispatch, fetchContactsThunk_2 } from 'src/redux/contacts/contactsActions'
@@ -17,17 +17,12 @@ export const ContactListPage = /*memo<CommonPageProps>(*/({
   
   console.log('render ContactListPage');
   
-  const store = useStore<RootState>();
-  const storeState = store.getState();
-  console.log('storeState:', storeState);
-  
-  
   const dispatch = useContactsDispatch();
   // const dispatch = useDispatch<ContactsDispatch>();
   
-  const contactsStoreState: ContactDto[] = useSelector(selectContactsData);
-  const contactsInitialState = contactsStoreState;  // contactsState[0]
-  console.log('contactsStoreState: ', contactsStoreState);
+  const contactsStoreData: ContactDto[] = useSelector(selectContactsData);
+  const contactsInitialState = contactsStoreData;  // contactsState[0]
+  console.log('ContactListPage contactsStoreData: ', contactsStoreData);
 
   const isLoading = useSelector(selectContactsIsLoading);
   const error = useSelector(selectContactsError);
@@ -59,13 +54,15 @@ export const ContactListPage = /*memo<CommonPageProps>(*/({
 
 
   useEffect(() => {
-    dispatch(fetchContactsThunk)
+    if (!contactsStoreData || contactsStoreData.length <= 0)
+      dispatch(fetchContactsThunk)
     // dispatch(fetchContactsThunk_2);  // или так со штатным useDispatch: dispatch === useDispatch<ContactsDispatch>()
   }, [])
 
   useEffect(() => {
-    setContacts(contactsStoreState);
-  }, [contactsStoreState])
+    // Обновляем лок. сост-е при изм-ии данных хранилища (например, после fetchContactsThunk)
+    setContacts(contactsStoreData);
+  }, [contactsStoreData])
 
 
   if (isLoading)

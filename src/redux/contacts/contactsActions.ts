@@ -4,7 +4,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import { RootState } from 'src/redux/store'
 import { FETCH_PATHS } from 'src/constants/fetchPaths'
-import { loadJSON, dynamicImportJSON } from 'src/lib/jsonUtilities'
+import { loadJSON } from 'src/lib/jsonUtilities'
 import { ContactDto } from 'src/types/dto/ContactDto';
 import { sleepAsync } from 'src/lib/commonUtilities'
 
@@ -42,16 +42,12 @@ export const fetchContactsThunk: ThunkAction<void, RootState, null, ContactsActi
   dispatch({ type: ContactsActionTypes.GET_CONTACTS_PENDING });
   try {
     const data = await loadJSON(FETCH_PATHS.contacts);
-    // const data = await loadJSON(FETCH_PATHS_MOCK.contacts);  // bad loading, html
-    // const data = await import(FETCH_PATHS_MOCK.contacts);  // error "Cannot find module", because need static string in path, not variable
-    // const data = await import('src/__data__', { assert: { type: "json" }});  // dynamic import json, error need "importAssertions": true ???
-
+    
     // Имитация динамической загрузки локального json-файла
     // const { DATA_CONTACT } = await import('src/__data__');  // like static import in MainApp.tsx, see src/__data__/index.ts
     // const data = DATA_CONTACT;
     await sleepAsync(1000);  // имитация доп. задержки при загрузке
 
-    console.log('fetchContactsThunk data:', data);
     dispatch({ type: ContactsActionTypes.GET_CONTACTS_FULFILLED, payload: data });
   } catch(err) {
     dispatch({ type: ContactsActionTypes.GET_CONTACTS_REJECTED, payload: (err as Error).message  });
