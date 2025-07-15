@@ -10,9 +10,13 @@ import {ContactDto} from 'src/types/dto/ContactDto';
 import { GroupContactsDto } from 'src/types/dto/GroupContactsDto';
 
 
-export const ContactListPage = /*memo<CommonPageProps>(*/({
+/*
+export const ContactListPage = memo<CommonPageProps>(({
   contactsState, groupContactsState
 }: CommonPageProps) => {
+*/
+
+export const ContactListPage = () => {
   
   console.log('render ContactListPage');
   

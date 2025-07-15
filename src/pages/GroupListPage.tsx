@@ -1,16 +1,33 @@
 import React, {memo} from 'react';
+import { useSelector } from 'react-redux'
+import { selectGroupsData, selectGroupsError, selectGroupsIsLoading } from 'src/redux/groups'
 import {CommonPageProps} from './types';
 import {Col, Row} from 'react-bootstrap';
 import {GroupContactsCard} from 'src/components/GroupContactsCard';
+import { GroupContactsDto } from 'src/types/dto/GroupContactsDto';
 
-export const GroupListPage = memo<CommonPageProps>(({contactsState, groupContactsState}) => {
+
+// export const GroupListPage = memo<CommonPageProps>(({contactsState, groupContactsState}: CommonPageProps) => {
+export const GroupListPage = () => {
+  
+  const groupsDataStore: GroupContactsDto[] = useSelector(selectGroupsData);
+  const isLoading = useSelector(selectGroupsIsLoading);
+  const error = useSelector(selectGroupsError);
+
+
+  if (isLoading)
+    return <>Загрузка групп...</>
+  if (!!error)
+    return <>Ошибка при загрузке групп</>
+
   return (
     <Row xxl={4}>
-      {groupContactsState[0].map((groupContacts) => (
+      {groupsDataStore.map((groupContacts) => (
         <Col key={groupContacts.id}>
           <GroupContactsCard groupContacts={groupContacts} withLink />
         </Col>
       ))}
     </Row>
   );
-});
+}
+// );

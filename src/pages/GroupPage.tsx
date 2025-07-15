@@ -1,4 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
+import { useSelector } from 'react-redux'
+import { selectContactsData } from 'src/redux/contacts'
+import { selectGroupsData } from 'src/redux/groups'
 import {CommonPageProps} from './types';
 import {Col, Row} from 'react-bootstrap';
 import {useParams} from 'react-router-dom';
@@ -8,24 +11,26 @@ import {GroupContactsCard} from 'src/components/GroupContactsCard';
 import {Empty} from 'src/components/Empty';
 import {ContactCard} from 'src/components/ContactCard';
 
-export const GroupPage = memo<CommonPageProps>(({
-  contactsState,
-  groupContactsState
-}) => {
+// export const GroupPage = memo<CommonPageProps>(({ contactsState, groupContactsState }) => {
+export const GroupPage = () => {
   const {groupId} = useParams<{ groupId: string }>();
   const [contacts, setContacts] = useState<ContactDto[]>([]);
   const [groupContacts, setGroupContacts] = useState<GroupContactsDto>();
 
+  const contactsDataStore: ContactDto[] = useSelector(selectContactsData);
+  const groupsDataStore: GroupContactsDto[] = useSelector(selectGroupsData);
+
+
   useEffect(() => {
-    const findGroup = groupContactsState[0].find(({id}) => id === groupId);
+    const findGroup = groupsDataStore.find(({id}) => id === groupId);
     setGroupContacts(findGroup);
     setContacts(() => {
       if (findGroup) {
-        return contactsState[0].filter(({id}) => findGroup.contactIds.includes(id))
+        return contactsDataStore.filter(({id}) => findGroup.contactIds.includes(id))
       }
       return [];
     });
-  }, [groupId, contactsState, groupContactsState]);
+  }, [groupId, contactsDataStore, groupsDataStore]);
 
   return (
     <Row className="g-4">
@@ -51,4 +56,5 @@ export const GroupPage = memo<CommonPageProps>(({
       ) : <Empty />}
     </Row>
   );
-});
+}
+// );

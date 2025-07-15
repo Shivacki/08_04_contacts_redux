@@ -28,6 +28,8 @@ export const App = () => {
   const dispatchGroups = useGroupsDispatch();
   
   useEffect(() => {
+    console.log('App useEffect []');
+    
     // Асинхронная инициализация хранилища данными
     // ... Контакты
     dispatchContacts(fetchContactsThunk)
@@ -43,40 +45,40 @@ export const App = () => {
         <Route path="/" element={<Layout />}>
           <Route index element={
             <ContactListPage
-              contactsState={contactsState}
-              favoriteContactsState={favoriteContactsState}
-              groupContactsState={groupContactsState}
+              // contactsState={contactsState}
+              // favoriteContactsState={favoriteContactsState}
+              // groupContactsState={groupContactsState}
             />
           } />
           <Route path="contact">
             <Route index element={
               <ContactListPage
-                contactsState={contactsState}
-                favoriteContactsState={favoriteContactsState}
-                groupContactsState={groupContactsState}
+                // contactsState={contactsState}
+                // favoriteContactsState={favoriteContactsState}
+                // groupContactsState={groupContactsState}
               />
             } />
             <Route path=":contactId" element={
               <ContactPage
-                contactsState={contactsState}
-                favoriteContactsState={favoriteContactsState}
-                groupContactsState={groupContactsState}
+                // contactsState={contactsState}
+                // favoriteContactsState={favoriteContactsState}
+                // groupContactsState={groupContactsState}
               />
             } />
           </Route>
           <Route path="groups">
             <Route index element={
               <GroupListPage
-                contactsState={contactsState}
-                favoriteContactsState={favoriteContactsState}
-                groupContactsState={groupContactsState}
+                // contactsState={contactsState}
+                // favoriteContactsState={favoriteContactsState}
+                // groupContactsState={groupContactsState}
               />
             } />
             <Route path=":groupId" element={
               <GroupPage
-                contactsState={contactsState}
-                favoriteContactsState={favoriteContactsState}
-                groupContactsState={groupContactsState}
+                // contactsState={contactsState}
+                // favoriteContactsState={favoriteContactsState}
+                // groupContactsState={groupContactsState}
               />
             } />
           </Route>
