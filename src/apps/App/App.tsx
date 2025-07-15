@@ -9,7 +9,6 @@ import {GroupContactsDto} from 'src/types/dto/GroupContactsDto';
 import {DATA_CONTACT, DATA_GROUP_CONTACT} from 'src/__data__';
 
 import { useContactsDispatch, fetchContactsThunk } from 'src/redux/contacts/contactsActions'
-// import { ContactsDispatch, fetchContactsThunk_2 } from 'src/redux/contacts/contactsActions'
 import { useGroupsDispatch, fetchGroupsThunk } from 'src/redux/groups/groupsActions'
 
 
@@ -24,7 +23,6 @@ export const App = () => {
   const groupContactsState = useState<GroupContactsDto[]>(DATA_GROUP_CONTACT);
 
   const dispatchContacts = useContactsDispatch();
-  // const dispatch = useDispatch<ContactsDispatch>();
   const dispatchGroups = useGroupsDispatch();
   
   useEffect(() => {
@@ -33,7 +31,6 @@ export const App = () => {
     // Асинхронная инициализация хранилища данными
     // ... Контакты
     dispatchContacts(fetchContactsThunk)
-    // dispatch(fetchContactsThunk_2);  // или так со штатным useDispatch: dispatch === useDispatch<ContactsDispatch>()
     // ... Группы контактов
     dispatchGroups(fetchGroupsThunk)
   }, [])
@@ -84,9 +81,9 @@ export const App = () => {
           </Route>
           <Route path="favorit" element={
             <FavoritListPage
-              contactsState={contactsState}
-              favoriteContactsState={favoriteContactsState}
-              groupContactsState={groupContactsState}
+              // contactsState={contactsState}
+              // favoriteContactsState={favoriteContactsState}
+              // groupContactsState={groupContactsState}
             />
           } />
         </Route>

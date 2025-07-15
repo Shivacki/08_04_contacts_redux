@@ -11,7 +11,7 @@ import {Empty} from 'src/components/Empty';
 
 // export const ContactPage: FC<CommonPageProps> = ({ contactsState }) => {
 export const ContactPage: FC = () => {
-    const contactsStoreState: ContactDto[] = useSelector(selectContactsData);
+  const contactsStoreState: ContactDto[] = useSelector(selectContactsData);
   const contactsInitialState = contactsStoreState;  // contactsState[0]
 
   const {contactId} = useParams<{ contactId: string }>();

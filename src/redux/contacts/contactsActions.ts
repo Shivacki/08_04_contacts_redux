@@ -55,7 +55,8 @@ export const fetchContactsThunk: ThunkAction<void, RootState, null, ContactsActi
 };
 
 
-///*
+/*
+// Альтернатива fetchContactsThunk
 type ContactsThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,
@@ -63,18 +64,15 @@ type ContactsThunk<ReturnType = void> = ThunkAction<
   ContactsAction //Action
 >;
 
-// Типизированная ф-я запроса данных с сервера в рамках redux thunk, к-ую можно передать в dispatch. Альтернатива fetchContactsThunk
+// Типизированная ф-я запроса данных с сервера в рамках redux thunk, к-ую можно передать в dispatch
 export const fetchContactsThunk_2 = (): ContactsThunk<Promise<void>> => async (dispatch, getState) => {
   // ... повторить здесь код fetchContactsThunk
 };
-//*/
 
-
-// Генератор действия (action creator)
-function getItems(): ContactsAction {
-  return {
-    type: ContactsActionTypes.GET_CONTACTS_FULFILLED,
-    // payload: null,
-  };
-}
+// Пример использования:
+// import { useDispatch } from 'react-redux';
+// import { ContactsDispatch, fetchContactsThunk_2 } from 'src/redux/contacts/contactsActions'
+// const dispatch = useDispatch<ContactsDispatch>();
+// dispatch(fetchContactsThunk_2);
+*/
 

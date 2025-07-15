@@ -1,17 +1,23 @@
 import React, {memo, useEffect, useState} from 'react';
+import { useSelector } from 'react-redux'
+import { selectContactsData, selectFavorites } from 'src/redux/contacts'
 import {CommonPageProps} from './types';
 import {Col, Row} from 'react-bootstrap';
 import {ContactCard} from 'src/components/ContactCard';
 import {ContactDto} from 'src/types/dto/ContactDto';
+import { FavoriteContactsDto } from 'src/types/dto/FavoriteContactsDto';
 
-export const FavoritListPage = memo<CommonPageProps>(({
-  favoriteContactsState,
-  contactsState
-}) => {
+
+// export const FavoritListPage = memo<CommonPageProps>(({ favoriteContactsState, contactsState }) => {
+export const FavoritListPage = () => {
   const [contacts, setContacts] = useState<ContactDto[]>([])
+  const contactsDataStore: ContactDto[] = useSelector(selectContactsData);
+  const favoritesDataStore: FavoriteContactsDto = useSelector(selectFavorites);
+
+  
   useEffect(() => {
-    setContacts(() => contactsState[0].filter(({id}) => favoriteContactsState[0].includes(id)));
-  }, [contactsState, favoriteContactsState])
+    setContacts(() => contactsDataStore.filter(({id}) => favoritesDataStore.includes(id)));
+  }, [contactsDataStore, favoritesDataStore])
   return (
     <Row xxl={4} className="g-4">
       {contacts.map((contact) => (
@@ -21,4 +27,4 @@ export const FavoritListPage = memo<CommonPageProps>(({
       ))}
     </Row>
   );
-})
+}
