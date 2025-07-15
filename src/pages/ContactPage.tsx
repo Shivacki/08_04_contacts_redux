@@ -1,7 +1,6 @@
 import React, {FC, useEffect, useState} from 'react';
 import { useSelector } from 'react-redux'
 import { selectContactsData } from 'src/redux/contacts'
-import {CommonPageProps} from './types';
 import {Col, Row} from 'react-bootstrap';
 import {useParams} from 'react-router-dom';
 import {ContactDto} from 'src/types/dto/ContactDto';

@@ -4,7 +4,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { RootState } from 'src/redux/store'
 import { FETCH_PATHS } from 'src/constants/fetchPaths'
 import { loadJSON } from 'src/lib/jsonUtilities'
-import { sleepAsync } from 'src/lib/commonUtilities'
+// import { sleepAsync } from 'src/lib/commonUtilities'
 
 
 export interface GroupsAction {
@@ -34,7 +34,7 @@ export const fetchGroupsThunk: ThunkAction<void, RootState, null, GroupsAction> 
   try {
     const data = await loadJSON(FETCH_PATHS.groups);
     
-    await sleepAsync(1000);  // имитация доп. задержки при загрузке
+    // await sleepAsync(1000);  // имитация доп. задержки при загрузке
 
     dispatch({ type: GroupsActionTypes.GET_GROUPS_FULFILLED, payload: data });
   } catch(err) {

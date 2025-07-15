@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import './MainApp.scss';
 import {ThemeProvider} from 'react-bootstrap';
 import { Provider } from 'react-redux'

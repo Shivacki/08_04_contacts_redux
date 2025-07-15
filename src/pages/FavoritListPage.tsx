@@ -1,14 +1,12 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useSelector } from 'react-redux'
 import { selectContactsData, selectFavorites } from 'src/redux/contacts'
-import {CommonPageProps} from './types';
 import {Col, Row} from 'react-bootstrap';
 import {ContactCard} from 'src/components/ContactCard';
 import {ContactDto} from 'src/types/dto/ContactDto';
 import { FavoriteContactsDto } from 'src/types/dto/FavoriteContactsDto';
 
 
-// export const FavoritListPage = memo<CommonPageProps>(({ favoriteContactsState, contactsState }) => {
 export const FavoritListPage = () => {
   const [contacts, setContacts] = useState<ContactDto[]>([])
   const contactsDataStore: ContactDto[] = useSelector(selectContactsData);

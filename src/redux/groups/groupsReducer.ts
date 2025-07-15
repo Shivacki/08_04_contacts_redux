@@ -18,14 +18,14 @@ const groupsReducer = (state: GroupsStoreState = initialState, action: GroupsAct
   switch (action.type) {
 
     case GroupsActionTypes.GET_GROUPS_PENDING:
-      console.log(GroupsActionTypes.GET_GROUPS_PENDING);
+      // console.log(GroupsActionTypes.GET_GROUPS_PENDING);
       return {
         ...state,
         isLoading: true,
         error: null,
       } 
     case GroupsActionTypes.GET_GROUPS_FULFILLED: 
-      console.log(GroupsActionTypes.GET_GROUPS_FULFILLED, 'payload:', action.payload);
+      // console.log(GroupsActionTypes.GET_GROUPS_FULFILLED, 'payload:', action.payload);
       return {
         ...state,
         isLoading: false,
@@ -33,7 +33,7 @@ const groupsReducer = (state: GroupsStoreState = initialState, action: GroupsAct
         error: null,
       };
     case GroupsActionTypes.GET_GROUPS_REJECTED: 
-      console.log(GroupsActionTypes.GET_GROUPS_REJECTED, 'payload:', action.payload);
+      // console.log(GroupsActionTypes.GET_GROUPS_REJECTED, 'payload:', action.payload);
       return {
         ...state,
         isLoading: false,

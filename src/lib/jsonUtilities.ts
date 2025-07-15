@@ -25,10 +25,12 @@ export async function loadJSON(path: string) {
  *   2. Исп-ть dynamicImportFixedJSON (см. ниже)
  *   3. Также возможны альтернативные решения: google search "typescript dynamic import with variable path error"
  */
+/*
 export async function dynamicImportJSON(importPath: string) {
   return await import(importPath);
   // return await import(importPath, { assert: { type: "json" }});  // dynamic import json, error need "importAssertions": true ???
 }
+*/
 
 /*
 // Map для динамических импортов статических файлов

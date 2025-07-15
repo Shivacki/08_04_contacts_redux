@@ -1,13 +1,11 @@
-import React, {memo} from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux'
 import { selectGroupsData, selectGroupsError, selectGroupsIsLoading } from 'src/redux/groups'
-import {CommonPageProps} from './types';
 import {Col, Row} from 'react-bootstrap';
 import {GroupContactsCard} from 'src/components/GroupContactsCard';
 import { GroupContactsDto } from 'src/types/dto/GroupContactsDto';
 
 
-// export const GroupListPage = memo<CommonPageProps>(({contactsState, groupContactsState}: CommonPageProps) => {
 export const GroupListPage = () => {
   
   const groupsDataStore: GroupContactsDto[] = useSelector(selectGroupsData);
@@ -30,4 +28,3 @@ export const GroupListPage = () => {
     </Row>
   );
 }
-// );

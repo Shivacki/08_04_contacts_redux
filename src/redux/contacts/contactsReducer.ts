@@ -21,14 +21,14 @@ const contactsReducer = (state: ContactsStoreState = initialState, action: Conta
   switch (action.type) {
 
     case ContactsActionTypes.GET_CONTACTS_PENDING:
-      console.log(ContactsActionTypes.GET_CONTACTS_PENDING);
+      // console.log(ContactsActionTypes.GET_CONTACTS_PENDING);
       return {
         ...state,
         isLoading: true,
         error: null,
       } 
     case ContactsActionTypes.GET_CONTACTS_FULFILLED: 
-      console.log(ContactsActionTypes.GET_CONTACTS_FULFILLED, 'payload:', action.payload);
+      // console.log(ContactsActionTypes.GET_CONTACTS_FULFILLED, 'payload:', action.payload);
       const newData = action.payload as ContactDto[];
       return {
         ...state,
@@ -38,7 +38,7 @@ const contactsReducer = (state: ContactsStoreState = initialState, action: Conta
         error: null,
       };
     case ContactsActionTypes.GET_CONTACTS_REJECTED: 
-      console.log(ContactsActionTypes.GET_CONTACTS_REJECTED, 'payload:', action.payload);
+      // console.log(ContactsActionTypes.GET_CONTACTS_REJECTED, 'payload:', action.payload);
       return {
         ...state,
         isLoading: false,

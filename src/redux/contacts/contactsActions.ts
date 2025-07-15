@@ -1,12 +1,10 @@
 import { ThunkAction } from 'redux-thunk';
 import { useDispatch } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { Action } from 'redux';
 import { RootState } from 'src/redux/store'
 import { FETCH_PATHS } from 'src/constants/fetchPaths'
 import { loadJSON } from 'src/lib/jsonUtilities'
-import { ContactDto } from 'src/types/dto/ContactDto';
-import { sleepAsync } from 'src/lib/commonUtilities'
+// import { sleepAsync } from 'src/lib/commonUtilities'
 
 
 export interface ContactsAction {
@@ -16,7 +14,7 @@ export interface ContactsAction {
 
 /*
 export interface ContactsAction extends Action {
-  // type: string;  // see Action
+  // type: string;  // see Action: import { Action } from 'redux';
   payload?: any;
 }
 */
@@ -44,9 +42,9 @@ export const fetchContactsThunk: ThunkAction<void, RootState, null, ContactsActi
     const data = await loadJSON(FETCH_PATHS.contacts);
     
     // Имитация динамической загрузки локального json-файла
-    // const { DATA_CONTACT } = await import('src/__data__');  // like static import in MainApp.tsx, see src/__data__/index.ts
+    // const { DATA_CONTACT } = await import('src/__data__');  // like static import in original MainApp.tsx, see src/__data__/index.ts
     // const data = DATA_CONTACT;
-    await sleepAsync(1000);  // имитация доп. задержки при загрузке
+    // await sleepAsync(1000);  // имитация доп. задержки при загрузке
 
     dispatch({ type: ContactsActionTypes.GET_CONTACTS_FULFILLED, payload: data });
   } catch(err) {
