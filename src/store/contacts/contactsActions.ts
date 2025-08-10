@@ -1,35 +1,10 @@
 import { ThunkAction } from 'redux-thunk';
-import { useDispatch } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk';
 import { RootState } from 'src/store'
+import { ContactsActionTypes, ContactsAction } from './contactsTypes'
 import { FETCH_PATHS } from 'src/constants/fetchPaths'
 import { loadJSON } from 'src/lib/jsonUtilities'
 // import { sleepAsync } from 'src/lib/commonUtilities'
 
-
-export interface ContactsAction {
-  type: string;
-  payload?: any;
-}
-
-/*
-export interface ContactsAction extends Action {
-  // type: string;  // see Action: import { Action } from 'redux';
-  payload?: any;
-}
-*/
-
-export enum ContactsActionTypes {
-  // Actions: pending, fulfilled и rejected
-  GET_CONTACTS_PENDING = 'GET_CONTACTS_PENDING',
-  GET_CONTACTS_FULFILLED = 'GET_CONTACTS_FULFILLED',
-  GET_CONTACTS_REJECTED = 'GET_CONTACTS_REJECTED',
-}
-
-
-// Типизированный useDispatch для исп-я вовне
-export type ContactsDispatch = ThunkDispatch<RootState, null, ContactsAction>;
-export const useContactsDispatch = () => useDispatch<ContactsDispatch>();
 
 // Типизированная ф-я запроса данных с сервера в рамках redux thunk, к-ую можно передать в dispatch
 export const fetchContactsThunk: ThunkAction<void, RootState, null, ContactsAction> = async (dispatch, getState) => {

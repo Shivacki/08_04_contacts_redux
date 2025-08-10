@@ -4,8 +4,8 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import {Layout} from 'src/components/Layout';
 import {ContactListPage, GroupPage, ContactPage, FavoritListPage, GroupListPage} from 'src/pages';
 
-import { useContactsDispatch, fetchContactsThunk } from 'src/store/contacts/contactsActions'
-import { useGroupsDispatch, fetchGroupsThunk } from 'src/store/groups/groupsActions'
+import { useContactsDispatch, fetchContactsThunk } from 'src/store/contacts'
+import { useGroupsDispatch, fetchGroupsThunk } from 'src/store/groups'
 
 
 export const App = () => {

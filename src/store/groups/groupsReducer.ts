@@ -1,12 +1,6 @@
-import { GroupsAction, GroupsActionTypes } from './groupsActions'
+import { GroupsAction, GroupsActionTypes, GroupsStoreState } from './groupsTypes'
 import { GroupContactsDto } from 'src/types/dto/GroupContactsDto';
 
-
-interface GroupsStoreState {
-  data: GroupContactsDto[];
-  isLoading: boolean;
-  error: string | null;
-}
 
 export const initialState: GroupsStoreState = {
   data: [],

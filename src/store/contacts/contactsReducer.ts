@@ -1,14 +1,7 @@
-import { ContactsAction, ContactsActionTypes } from './contactsActions'
+import { ContactsAction, ContactsActionTypes, ContactsStoreState } from './contactsTypes'
 import { ContactDto } from 'src/types/dto/ContactDto';
 import { FavoriteContactsDto } from 'src/types/dto/FavoriteContactsDto';
 
-
-interface ContactsStoreState {
-  data: ContactDto[];
-  isLoading: boolean;
-  error: string | null;
-  favorites: FavoriteContactsDto,  // Избранные контакты
-}
 
 export const initialState: ContactsStoreState = {
   data: [],
@@ -34,7 +27,7 @@ const contactsReducer = (state: ContactsStoreState = initialState, action: Conta
         ...state,
         isLoading: false,
         data: newData,
-        favorites: [newData[0].id, newData[1].id, newData[2].id, newData[3].id],  // список Избранных контактов всегда фиксированный
+        favorites: [newData[0].id, newData[1].id, newData[2].id, newData[3].id] as FavoriteContactsDto,  // список Избранных контактов всегда фиксированный
         error: null,
       };
     case ContactsActionTypes.GET_CONTACTS_REJECTED: 
