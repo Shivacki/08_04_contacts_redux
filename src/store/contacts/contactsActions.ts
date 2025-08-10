@@ -1,7 +1,7 @@
 import { ThunkAction } from 'redux-thunk';
 import { useDispatch } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { RootState } from 'src/redux/store'
+import { RootState } from 'src/store'
 import { FETCH_PATHS } from 'src/constants/fetchPaths'
 import { loadJSON } from 'src/lib/jsonUtilities'
 // import { sleepAsync } from 'src/lib/commonUtilities'
@@ -69,7 +69,7 @@ export const fetchContactsThunk_2 = (): ContactsThunk<Promise<void>> => async (d
 
 // Пример использования:
 // import { useDispatch } from 'react-redux';
-// import { ContactsDispatch, fetchContactsThunk_2 } from 'src/redux/contacts/contactsActions'
+// import { ContactsDispatch, fetchContactsThunk_2 } from 'src/store/contacts/contactsActions'
 // const dispatch = useDispatch<ContactsDispatch>();
 // dispatch(fetchContactsThunk_2);
 */

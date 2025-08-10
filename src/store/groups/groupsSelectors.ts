@@ -1,5 +1,5 @@
 import { GroupContactsDto } from 'src/types/dto/GroupContactsDto';
-import { RootState } from 'src/redux/store'
+import { RootState } from 'src/store'
 
 
 export const selectGroupsData = (state: RootState): GroupContactsDto[] => state.groups.data;

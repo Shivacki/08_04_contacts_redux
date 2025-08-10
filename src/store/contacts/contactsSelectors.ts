@@ -1,6 +1,6 @@
 import { ContactDto } from 'src/types/dto/ContactDto';
 import { FavoriteContactsDto } from 'src/types/dto/FavoriteContactsDto';
-import { RootState } from 'src/redux/store'
+import { RootState } from 'src/store'
 
 
 export const selectContactsData = (state: RootState): ContactDto[] => state.contacts.data;

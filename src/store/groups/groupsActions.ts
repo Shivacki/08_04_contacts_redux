@@ -1,7 +1,7 @@
 import { ThunkAction } from 'redux-thunk';
 import { useDispatch } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { RootState } from 'src/redux/store'
+import { RootState } from 'src/store'
 import { FETCH_PATHS } from 'src/constants/fetchPaths'
 import { loadJSON } from 'src/lib/jsonUtilities'
 // import { sleepAsync } from 'src/lib/commonUtilities'
